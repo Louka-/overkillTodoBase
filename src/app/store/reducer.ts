@@ -30,7 +30,7 @@ export const todosReducer = createReducer(
         ...state,
         todos: [
           ...state.todos.slice(0, index),
-          { id: todo.id, title: todo.title, isClosed: !todo.isClosed },
+          { id: todo.id, title: todo.title, description: todo.description, isClosed: !todo.isClosed },
           ...state.todos.slice(index + 1),
         ]
       })

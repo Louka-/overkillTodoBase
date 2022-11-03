@@ -4,10 +4,10 @@ import { selectDoneTodos, selectSortedTodos, selectTodos, selectUndoneTodos } fr
 describe('Selectors', () => {
   const initialState: State = {
     todos: [
-      { id: 0, title: 'todo1Title', isClosed: true },
-      { id: 1, title: 'todo2Title', isClosed: false },
-      { id: 2, title: 'todo3Title', isClosed: true },
-      { id: 3, title: 'todo4Title', isClosed: true },
+      { id: 0, title: 'todo1Title', description: 'some description', isClosed: true },
+      { id: 1, title: 'todo2Title', description: 'some description', isClosed: false },
+      { id: 2, title: 'todo3Title', description: 'some description', isClosed: true },
+      { id: 3, title: 'todo4Title', description: 'some description', isClosed: true },
     ]
   };
 
@@ -32,10 +32,10 @@ describe('Selectors', () => {
     const result = selectSortedTodos.projector(doneTodos, undoneTodos);
     const newState: State = {
       todos: [
-        { id: 1, title: 'todo2Title', isClosed: false },
-        { id: 0, title: 'todo1Title', isClosed: true },
-        { id: 2, title: 'todo3Title', isClosed: true },
-        { id: 3, title: 'todo4Title', isClosed: true },
+        { id: 1, title: 'todo2Title', description: 'some description', isClosed: false },
+        { id: 0, title: 'todo1Title', description: 'some description', isClosed: true },
+        { id: 2, title: 'todo3Title', description: 'some description', isClosed: true },
+        { id: 3, title: 'todo4Title', description: 'some description', isClosed: true },
       ]
     }
     expect(result).toEqual(newState.todos);

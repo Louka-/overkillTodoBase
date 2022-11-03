@@ -17,7 +17,9 @@ describe('Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({ todosStore: todosReducer })],
+      imports: [
+        StoreModule.forRoot({ todosStore: todosReducer }),
+      ],
       providers: [
         Effects,
         provideMockActions(() => actions),
@@ -27,13 +29,12 @@ describe('Effects', () => {
         },
       ],
     });
-
     effects = TestBed.inject(Effects);
   });
 
   describe('loadTodos$', () => {
     it('should dispatch loadTodosSuccess action when todoService.list return a result', () => {
-      const mockedTodos: Todo[] = [{ id: 0, title: 'aTitle', isClosed: true }];
+      const mockedTodos: Todo[] = [{ id: 0, title: 'aTitle', description: 'some description', isClosed: true }];
       todoService.list.and.returnValue(of(mockedTodos));
 
       actions = hot('-a-', {

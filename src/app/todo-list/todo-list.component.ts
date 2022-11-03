@@ -1,10 +1,13 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Todo } from '../models/todo';
 import { Store } from '@ngrx/store';
-import { selectSortedTodos, selectTodos } from '../store/selectors';
+import { selectSortedTodos } from '../store/selectors';
 import { loadTodos, toggleTodoStatus } from '../store/actions';
-import { map, switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { TodoDetailComponent } from '../todo-detail/todo-detail.component';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-todo-list',
@@ -13,10 +16,19 @@ import { map, switchMap } from 'rxjs/operators';
 })
 export class TodoListComponent implements OnInit {
 
+  selectedId: number | undefined;
   todos$: Observable<ReadonlyArray<Todo>>;
-
-  constructor(private store: Store) {
-    this.todos$ = this.store.select(selectSortedTodos);
+  constructor(
+    private store: Store,
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+  ) {
+    this.todos$ = this.route.paramMap.pipe(
+      switchMap(params => {
+        this.selectedId = Number(params.get('id'));
+        return this.store.select(selectSortedTodos);
+      })
+    );
   }
 
   ngOnInit(): void {
@@ -25,6 +37,10 @@ export class TodoListComponent implements OnInit {
 
   toggleStatus(todo: Todo): void {
     this.store.dispatch(toggleTodoStatus({ todo: todo }));
+  }
+
+  openDetail(todo: Todo): void {
+    this.dialog.open(TodoDetailComponent, { data: todo });
   }
 
 }

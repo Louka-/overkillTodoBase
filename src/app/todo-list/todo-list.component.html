@@ -9,6 +9,7 @@
             </mat-checkbox>
             {{ todo.title }}
           </h4>
+          <a mat-raised-button color="primary" routerLink="detail/{{todo.id}}" (click)="openDetail(todo)">Detail</a>
         </mat-list-item>
       </mat-list>
     </mat-card-content>

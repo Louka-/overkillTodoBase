@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { TodoService } from './todo.service';
 import {
   HttpClientTestingModule,
@@ -14,7 +13,11 @@ describe('TodoService', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({ imports: [HttpClientTestingModule] });
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+      ],
+    });
     service = TestBed.inject(TodoService);
     httpMock = TestBed.inject(HttpTestingController);
   });
@@ -24,7 +27,7 @@ describe('TodoService', () => {
   });
 
   it('should list todos', (done: DoneFn) => {
-    const mockedTodoList: Todo[] = [{ id: 0, title: 'todoTitle', isClosed: true }];
+    const mockedTodoList: Todo[] = [{ id: 0, title: 'todoTitle', description: 'some description', isClosed: true }];
 
     service
       .list()
