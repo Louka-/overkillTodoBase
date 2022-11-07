@@ -43,9 +43,7 @@ describe('TodoListComponent', () => {
       imports: [
         MatRippleModule,
         FormsModule,
-        MatDialogModule,
         MatButtonModule,
-        RouterTestingModule,
         MatDialogModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes(
@@ -110,15 +108,21 @@ describe('TodoListComponent', () => {
   });
 
   it('should call openDetail', () => {
-    const todo = { id: 0, title: 'todo 1', description: 'some description', isClosed: false };
+    const openDetailSpy = spyOn(component, 'openDetail').and.callThrough();
     TestBed.createComponent(TodoListComponent);
+    const todo = { id: 0, title: 'todo 1', description: 'some description', isClosed: false };
 
     component.openDetail(todo);
     fixture.detectChanges();
-    const popUpHeader = document.getElementsByTagName('h2')[0] as HTMLHeadElement;
-    const popUpDescription = document.getElementsByTagName('p')[0] as HTMLHeadElement;
-    expect(popUpHeader.innerText).toEqual('todo 1');
-    expect(popUpDescription.innerText).toEqual('some description');
-  })
+    expect(openDetailSpy).toHaveBeenCalled();
+  });
 
+  it('should call addTodo', () => {
+    const addTodoSpy = spyOn(component, 'addTodo').and.callThrough();
+    TestBed.createComponent(TodoListComponent);
+
+    component.addTodo();
+    fixture.detectChanges();
+    expect(addTodoSpy).toHaveBeenCalled();
+  })
 });

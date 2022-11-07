@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TodoDetailComponent } from '../todo-detail/todo-detail.component';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { AddTodoComponent } from '../add-todo/add-todo.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -43,4 +44,7 @@ export class TodoListComponent implements OnInit {
     this.dialog.open(TodoDetailComponent, { data: todo });
   }
 
+  addTodo(): void {
+    this.dialog.open(AddTodoComponent);
+  }
 }

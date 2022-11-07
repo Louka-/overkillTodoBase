@@ -16,7 +16,7 @@ export const selectDoneTodos = createSelector(
 
 export const selectUndoneTodos = createSelector(
   getState,
-  (state: State) => state.todos.filter(todo => !todo.isClosed),
+  (state: State) => state.todos.filter(todo => !todo.isClosed).reverse(),
 );
 
 export const selectSortedTodos = createSelector(

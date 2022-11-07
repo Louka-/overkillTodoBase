@@ -44,4 +44,23 @@ describe('TodoService', () => {
 
     req.flush(mockedTodoList);
   });
+
+  it('should create a todo', (done: DoneFn) => {
+    const mockedTodo: Todo = { id: 0, title: 'todoTitle', description: 'some description', isClosed: true };
+
+    service
+      .createTodo(mockedTodo)
+      .pipe(first())
+      .subscribe((res: Todo) => {
+        expect(res).toEqual(mockedTodo);
+        done();
+      }, done.fail);
+
+    const req = httpMock.expectOne(
+      (r) => r.url === `${environment.baseUrl}/api/todo`
+    );
+    expect(req.request.method).toEqual('POST');
+
+    req.flush(mockedTodo);
+  });
 });

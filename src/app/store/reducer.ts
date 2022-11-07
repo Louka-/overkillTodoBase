@@ -1,6 +1,6 @@
 import { Todo } from '../models/todo';
 import { createReducer, on } from '@ngrx/store';
-import { loadTodosSuccess, toggleTodoStatus } from './actions';
+import { createTodo, loadTodosSuccess, toggleTodoStatus } from './actions';
 
 export const featureKey = 'todosStore';
 
@@ -33,6 +33,15 @@ export const todosReducer = createReducer(
           { id: todo.id, title: todo.title, description: todo.description, isClosed: !todo.isClosed },
           ...state.todos.slice(index + 1),
         ]
+      })
+    }
+  ),
+  on(
+    createTodo,
+    (state, action) => {
+      return ({
+        ...state,
+        todos: state.todos.concat(action.todo),
       })
     }
   )

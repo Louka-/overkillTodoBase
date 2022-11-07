@@ -7,13 +7,13 @@ import { Actions } from '@ngrx/effects';
 import { todosReducer } from './reducer';
 import { TodoService } from '../services/todo.service';
 import { cold, hot } from 'jasmine-marbles';
-import { loadTodos, loadTodosFailed, loadTodosSuccess } from './actions';
+import { createTodo, createTodoFailed, createTodoSuccess, loadTodos, loadTodosFailed, loadTodosSuccess } from './actions';
 import { Todo } from '../models/todo';
 
 describe('Effects', () => {
   let effects: Effects;
   let actions: Observable<Actions>;
-  const todoService = jasmine.createSpyObj<TodoService>('TodoService', ['list']);
+  const todoService = jasmine.createSpyObj<TodoService>('TodoService', ['list', 'createTodo']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -58,6 +58,36 @@ describe('Effects', () => {
       });
 
       expect(effects.loadTodos$).toBeObservable(expected);
+    });
+  });
+
+  describe('createTodo$', () => {
+    it('should dispatch createTodoSuccess action when todoService.createTodo return a result', () => {
+      const mockedTodo: Todo = { id: 0, title: 'aTitle', description: 'some description', isClosed: true };
+      todoService.createTodo.and.returnValue(of(mockedTodo));
+
+      actions = hot('-a-', {
+        a: createTodo({ todo: mockedTodo }),
+      });
+      const expected = cold('-b-', {
+        b: createTodoSuccess({ todo: mockedTodo }),
+      });
+
+      expect(effects.createTodo$).toBeObservable(expected);
+    });
+
+    it('should dispatch createTodosFailed action when todoService.createTodo fails', () => {
+      const mockedTodo: Todo = { id: 0, title: 'aTitle', description: 'some description', isClosed: true };
+      todoService.createTodo.and.returnValue(cold('#'));
+
+      actions = hot('-a-', {
+        a: createTodo({ todo: mockedTodo }),
+      });
+      const expected = cold('-b-', {
+        b: createTodoFailed(),
+      });
+
+      expect(effects.createTodo$).toBeObservable(expected);
     });
   });
 });

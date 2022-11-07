@@ -1,0 +1,24 @@
+<div class="todoForm">
+  <form [formGroup]="todoForm" class="width">
+    <h2>Add a new todo</h2>
+    <mat-form-field class="width" appearance="fill">
+      <mat-label>
+        Title
+      </mat-label>
+      <input type="text" matInput id="title" name="title" required formControlName="title">
+    </mat-form-field>
+    <mat-error style="color: #f44336; font-size: small;" *ngIf="f.title.touched && f.title.errors">
+      this field is required
+    </mat-error>
+    <mat-form-field class="width" appearance="fill">
+      <mat-label>
+        Description
+      </mat-label>
+      <textarea type="text" matInput id="description" name="description" formControlName="description"></textarea>
+    </mat-form-field>
+    <div class="buttons">
+      <button mat-button (click)="cancel()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="validate(todoForm)">Validate</button>
+    </div>
+  </form>
+</div>
